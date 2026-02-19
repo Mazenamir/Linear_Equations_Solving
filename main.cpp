@@ -302,9 +302,29 @@ int main()
     cout << "   LINEAR EQUATIONS SOLVER (PROPER FORM)   " << endl;
     cout << "==========================================" << endl;
 
-   initializeSystem();
+    // cout << "\n[Step 1] Enter number of equations: ";
+    // if (!(cin >> n))
+    //     return 0;
+ 
+    // string eqs[100];
+    // cout << "[Step 2] Enter the " << n << " equations (e.g., 2x1+3x2=16):" << endl;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     cout << " Equation " << i + 1 << ": ";
+    //     cin >> eqs[i];
+    // }
+ 
+    // extractAndSortVars(eqs);
+    // parseEquations(eqs);
+ 
+    // cout << "\n>>> System initialized successfully! <<<" << endl;
+    // cout << "Available Commands: num_vars, equation, column, add, subtract, substitute, D, D_value, solve, quit" << endl;
+
+    initializeSystem();
     string cmd;
     
+
+
     while (true)
     {
         cout << "\nChoose an operation: ";
