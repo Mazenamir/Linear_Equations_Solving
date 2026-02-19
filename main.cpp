@@ -308,7 +308,7 @@ int main()
     while (true)
     {
         cout << "\nChoose an operation: ";
-        cin >> ch;
+        cin >> cmd;
 
         for (char &c : cmd){
             c = tolower(c);
