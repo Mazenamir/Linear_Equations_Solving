@@ -1,0 +1,275 @@
+🧪 Test Cases Documentation
+📌 Project: Linear Equations Solver
+1️⃣ System Initialization Tests
+✅ TC-01: Valid System Initialization
+
+Description:
+التأكد إن النظام بيقرأ عدد المعادلات ويخزنهم صح.
+
+Input:
+
+3
+2x1+3x2+4x3=16
+1x1+2x2+1x3=8
+3x1+1x2+2x3=13
+
+Expected Result:
+
+يتم تحميل النظام بنجاح.
+
+يتم استخراج 3 متغيرات (x1, x2, x3).
+
+لا يظهر أي Error.
+
+❌ TC-02: Equation Without '='
+
+Input:
+
+2
+2x1+3x2+4x3
+1x1+2x2+1x3=8
+
+Expected Output:
+
+Invalid equation format. Each equation must contain exactly one '=' sign.
+Example of valid format: 2x1+3x2=16
+❌ TC-03: Equation With Multiple '='
+
+Input:
+
+1
+2x1+3x2==16
+
+Expected Output:
+
+Invalid equation format. Each equation must contain exactly one '=' sign.
+
+2️⃣ Proper Form Conversion Tests
+✅ TC-04: Variable Ordering
+
+Input Equation:
+
+3x2+2x1+4x3=16
+
+Expected Stored Form:
+
+2x1+3x2+4x3=16
+
+✔️ المتغيرات مرتبة أبجديًا حسب المتطلبات 
+
+Project_1 linear equations solv…
+
+✅ TC-05: Duplicate Variable Handling
+
+Input:
+
+4x1+3x2-2x1+4x3=16
+
+Expected Output:
+
+2x1+3x2+4x3=16
+
+✔️ تم دمج معاملات x1.
+
+✅ TC-06: Constants Handling
+
+Input:
+
+2x1+3x2+5+4x3-11=10
+
+Expected Output:
+
+2x1+3x2+4x3=16
+
+✔️ تم نقل الثوابت للطرف الأيمن.
+
+3️⃣ Basic Operations Tests
+✅ TC-07: num_vars
+
+Command:
+
+num_vars
+
+Expected Output:
+
+Total number of unique variables = 3
+✅ TC-08: equation Command
+
+Command:
+
+equation 2
+
+Expected Output:
+
+1x1+2x2+1x3=8
+❌ TC-09: equation Invalid Index
+
+Command:
+
+equation 0
+
+Expected Output:
+
+Invalid equation number. It must be between 1 and 3.
+✅ TC-10: column Operation
+
+Command:
+
+column x2
+
+Expected Output:
+
+3
+2
+1
+❌ TC-11: column Invalid Variable
+
+Command:
+
+column x9
+
+Expected Output:
+
+Variable not found in the system.
+4️⃣ Arithmetic Operations Tests
+✅ TC-12: add Operation
+
+Command:
+
+add 1 3
+
+Expected Output:
+
+5x1+4x2+6x3=29
+❌ TC-13: add Invalid Index
+
+Command:
+
+add 1 5
+
+Expected Output:
+
+Invalid input. Equation numbers must be between 1 and 3.
+✅ TC-14: subtract Operation
+
+Command:
+
+subtract 3 1
+
+Expected Output:
+
+1x1-2x2-2x3=-3
+5️⃣ Substitute Operation Tests
+✅ TC-15: Valid Substitution
+
+Command:
+
+substitute x2 1 2
+
+Expected Behavior:
+
+إزالة المتغير x2 من المعادلة 1.
+
+طباعة المعادلة الجديدة.
+
+❌ TC-16: Substitute Same Equation
+
+Command:
+
+substitute x2 1 1
+
+Expected Output:
+
+Substitution requires two different equations.
+❌ TC-17: Substitute Zero Coefficient
+
+إذا كان معامل المتغير في المعادلة المستبدل منها = 0
+
+Expected Output:
+
+Cannot substitute. The variable coefficient in equation 2 is zero.
+6️⃣ Determinant & Cramer's Rule Tests
+✅ TC-18: D Operation
+
+Command:
+
+d
+
+Expected Output:
+
+2 3 4
+1 2 1
+3 1 2
+❌ TC-19: D When n ≠ totalVars
+
+Expected Output:
+
+Cramer's Rule requires number of equations equal to number of variables.
+✅ TC-20: D_value
+
+Command:
+
+d_value
+
+Expected Output:
+
+-11
+✅ TC-21: solve (Valid System)
+
+Command:
+
+solve
+
+Expected Output:
+
+x1=3
+x2=2
+x3=1
+
+✔️ حسب قاعدة كرامر المذكورة في المشروع 
+
+Project_1 linear equations solv…
+
+❌ TC-22: solve When Determinant = 0
+
+Expected Output:
+
+No Solution. Determinant equals zero.
+❌ TC-23: solve When n ≠ totalVars
+
+Expected Output:
+
+Cannot solve using Cramer's Rule. Equations count must equal variables count.
+7️⃣ Edge Cases
+✅ TC-24: All Coefficients = 0
+
+Input:
+
+0x1+0x2=5
+
+Expected Output:
+
+0=5
+✅ TC-25: restart Command
+
+Command:
+
+restart
+
+Expected Behavior:
+
+إعادة إدخال عدد المعادلات.
+
+إعادة تحميل النظام بالكامل.
+
+🎯 Coverage Summary
+Feature	Covered
+Proper Form Conversion	✅
+Variable Extraction	✅
+Column Operation	✅
+Add/Subtract	✅
+Substitute	✅
+Determinant	✅
+Cramer's Solve	✅
+Error Handling	✅
+Edge Cases	✅
