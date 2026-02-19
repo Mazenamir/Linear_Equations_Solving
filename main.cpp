@@ -303,7 +303,7 @@ int main()
     cout << "==========================================" << endl;
 
    void initializeSystem();
-    string ch;
+    string cmd;
     
     while (true)
     {
