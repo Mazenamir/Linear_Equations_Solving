@@ -310,8 +310,8 @@ int main()
         cout << "\nChoose an operation: ";
         cin >> ch;
 
-        for (char &cmd : ch){
-            cmd = tolower(cmd);
+        for (char &c : cmd){
+            c = tolower(c);
         }
 
         if (cmd == "quit"){
@@ -322,7 +322,7 @@ int main()
             initializeSystem();   // 🔥 إعادة إدخال النظام
             continue;
         }
-        
+
         if (cmd == "num_vars")
         {
             cout << "Number of unique variables: " << totalVars << endl;
@@ -908,3 +908,11 @@ else if (cmd == "solve") {
 // ونرتب الكود صح.
 
 /**************** */
+
+
+// 👑 هل تحب:
+
+// 1️⃣ نخليه clean بدون أي extra text نهائي
+// 2️⃣ نخليه interactive وجاهز للاستعمال الحقيقي
+
+// قولّي تختار أي مود 🔥
