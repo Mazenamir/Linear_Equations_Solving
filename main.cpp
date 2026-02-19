@@ -33,10 +33,13 @@ void extractAndSortVars(string eqs[])
         string s = eqs[i];
         for (int j = 0; j < (int)s.length(); j++)
         {
+            /**********first atempt accept only x ******** */
             // if (s[j] == 'x') {
             //     string v = "x";
             //     int k = j + 1;
             //     while (k < (int)s.length() && isdigit(s[k])) { v += s[k]; k++; }
+
+            /**********second atempt accept only a character as a variable ******** */
             if (isalpha(s[j]))
             {
 
@@ -58,6 +61,8 @@ void extractAndSortVars(string eqs[])
                     varNames[totalVars++] = v;
                 j = k - 1;
             }
+
+            /*************** */
         }
     }
     for (int i = 0; i < totalVars - 1; i++)
@@ -705,6 +710,18 @@ else if (cmd == "solve") {
 
 /*********************/
 
+// سيب الكود كله زي ما هو متغير في حاجه ضيف بس لكن متمسحش اي حاجه ولا حتي نقطه ولا مسافه.
+
+// عايزك بس تعمل الي انا هقولك عليه 
+
+// جوه الكود ده في اكواد كتير معمولها hash كانها comment, دي التجارب الاوله للجزء ده بعد ما لقيت في تعديل او غلط .
+// انا عايز منك تقرا الكود كله بالاجزاء المعموله comment كمان و تكتب فوق كل جزء معمول comment تعليق بيقول ان دي محاوله رقم 1 مقلا المشكله: كذا كذا 
+// و التعديل كان كذا كذا كذا 
+
+
+
+/************************* */
+
 // سيبك من "لا يوجد أي نص إضافي"
 
 // عدل كل invalid try او error msg  لل كلام منطقي 
@@ -719,3 +736,5 @@ else if (cmd == "solve") {
 
 
 /***********************************/
+
+
