@@ -302,7 +302,7 @@ int main()
     cout << "   LINEAR EQUATIONS SOLVER (PROPER FORM)   " << endl;
     cout << "==========================================" << endl;
 
-   void initializeSystem();
+   initializeSystem();
     string cmd;
     
     while (true)
