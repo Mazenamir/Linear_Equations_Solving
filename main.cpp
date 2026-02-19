@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <iomanip>
-
+#include <cctype>
 using namespace std;
 
 // --- البيانات الأساسية (Arrays Only) ---
@@ -12,6 +12,8 @@ float constants[100];
 string varNames[100];
 int n;
 int totalVars = 0;
+
+
 
 // --- دالة البحث عن مكان المتغير ---
 int getVarIndex(string v)
@@ -266,29 +268,24 @@ float getDeterminant(float mat[100][100], int size)
     return det;
 }
 
-int main()
+void initializeSystem()
 {
-    cout << "==========================================" << endl;
-    cout << "   LINEAR EQUATIONS SOLVER (PROPER FORM)   " << endl;
-    cout << "==========================================" << endl;
-
-    cout << "\n[Step 1] Enter number of equations: ";
+ cout << "\n[Step 1] Enter number of equations: ";
     if (!(cin >> n)){
-        return 0;}
+        exit(0);
+    }
 
     cin.ignore();
+
     string eqs[100];
+
     cout << "[Step 2] Enter the " << n << " equations (e.g., 2x1+3x2=16):" << endl;
+
     for (int i = 0; i < n; i++)
     {
         cout << " Equation " << i + 1 << ": ";
-        // cin >> eqs[i];
-        string line;
-        getline(cin, line);
-        if (line.empty()) { 
-            i--; continue; 
-        }
-        eqs[i] = line;
+        getline(cin, eqs[i]);
+        if (eqs[i].empty()) { i--; continue; }
     }
 
     extractAndSortVars(eqs);
@@ -297,15 +294,35 @@ int main()
     cout << "\n>>> System initialized successfully! <<<" << endl;
     cout << "Available Commands: num_vars, equation, column, add, subtract, substitute, D, D_value, solve, quit" << endl;
 
-    string cmd;
+}
+
+int main()
+{
+    cout << "==========================================" << endl;
+    cout << "   LINEAR EQUATIONS SOLVER (PROPER FORM)   " << endl;
+    cout << "==========================================" << endl;
+
+   void initializeSystem();
+    string ch;
+    
     while (true)
     {
         cout << "\nChoose an operation: ";
-        cin >> cmd;
+        cin >> ch;
 
-        if (cmd == "quit")
+        for (char &cmd : ch){
+            cmd = tolower(cmd);
+        }
+
+        if (cmd == "quit"){
             break;
-
+        }
+       if (cmd == "restart") {
+            cin.ignore();
+            initializeSystem();   // 🔥 إعادة إدخال النظام
+            continue;
+        }
+        
         if (cmd == "num_vars")
         {
             cout << "Number of unique variables: " << totalVars << endl;
@@ -487,7 +504,7 @@ int main()
         //         cout << endl;
         //     }
         // }
-      else if (cmd == "D") {
+      else if (cmd == "d"){
 
     string v;
 
@@ -549,7 +566,7 @@ int main()
         // {
         //     cout << "Determinant (D) = " << getDeterminant(matrix, n) << endl;
         // }
-        else if (cmd == "D_value") {
+        else if (cmd == "d_value") {
 
     if (n != totalVars) {
         cout << "invalid try" << endl;
