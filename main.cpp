@@ -48,8 +48,19 @@ void extractAndSortVars(string eqs[])
 
                 int k = j + 1;
 
-                while (k < (int)s.length() && isdigit(s[k]))
-                {
+                
+                // while (k < (int)s.length() && isdigit(s[k]))
+                // {
+                //     v += s[k];
+                //     k++;
+                // }
+                  // جمع باقي الحروف
+                while (k < s.length() && isalpha(s[k])) {
+                    v += s[k];
+                    k++;
+                }
+                 // جمع الأرقام بعد الحروف (اختياري)
+                while (k < s.length() && isdigit(s[k])) {
                     v += s[k];
                     k++;
                 }
@@ -75,22 +86,56 @@ void extractAndSortVars(string eqs[])
     }
 }
 
+string removeSpaces(string s) {
+    string result = "";
+    for (char c : s) {
+        if (c != ' ')
+            result += c;
+    }
+    return result;
+}
+
 void parseEquations(string eqs[])
 {
     // تصقير المصفوفات
     for (int i = 0; i < 100; i++)
     {
         constants[i] = 0;
-        for (int j = 0; j < 100; j++)
+        for (int j = 0; j < 100; j++){
             matrix[i][j] = 0;
+        }
     }
+    /************ */
+        // for (int i = 0; i < n; i++)
+        // {
+        // if (eqs[i].find('=') == string::npos) {
+        //     cout << "invalid try" << endl;
+        //     exit(0);
+        // }
+        // size_t eqPos = eqs[i].find('=');
+        // string lhs = eqs[i].substr(0, eqPos);
+        // string rhs = eqs[i].substr(eqPos + 1);
+        for (int i = 0; i < n; i++)
+        {
+            // size_t eqPos = eqs[i].find('=');
+            string cleaned = removeSpaces(eqs[i]);
+            size_t eqPos = cleaned.find('=');
 
-    for (int i = 0; i < n; i++)
-    {
-        size_t eqPos = eqs[i].find('=');
-        string lhs = eqs[i].substr(0, eqPos);
-        string rhs = eqs[i].substr(eqPos + 1);
+            if (eqPos == string::npos ||
+                cleaned.find('=', eqPos + 1) != string::npos)
+            {
+                cout << "invalid try" << endl;
+                exit(0);
+            }
 
+
+
+            string lhs = cleaned.substr(0, eqPos);
+            string rhs = cleaned.substr(eqPos + 1);
+
+
+
+/***************** */
         // دالة فرعية منطقية لمعالجة أي طرف (طرف أيسر معامل بـ +1، طرف أيمن بـ -1)
         auto parseSide = [&](string side, int multiplier)
         {
@@ -118,7 +163,24 @@ void parseEquations(string eqs[])
                         if (xPos != string::npos)
                         {
                             string coeffStr = term.substr(0, xPos);
-                            string vName = term.substr(xPos);
+                            // string vName = term.substr(xPos);
+                            /************* */
+                            string vName = "";
+                            int k = xPos;
+
+                            // جمع الحروف
+                            while (k < term.length() && isalpha(term[k])) {
+                                vName += term[k];
+                                k++;
+                            }
+
+                            // جمع الأرقام بعد الحروف
+                            while (k < term.length() && isdigit(term[k])) {
+                                vName += term[k];
+                                k++;
+                            }
+
+                            /********* */
                             float val = (coeffStr == "" || coeffStr == "+") ? 1 : (coeffStr == "-") ? -1
                                                                                                     : atof(coeffStr.c_str());
                             // إذا كان في الطرف الأيمن نضربه في -1 لنقله للأيسر
@@ -166,6 +228,11 @@ void printFormattedEq(float coeffs[], float rhs)
             first = false;
         }
     }
+       // 🔥 لو كل المعاملات صفر
+    if (first){
+        cout << "0";        
+    }
+
     cout << "=" << rhs << endl;
 }
 
@@ -206,15 +273,22 @@ int main()
     cout << "==========================================" << endl;
 
     cout << "\n[Step 1] Enter number of equations: ";
-    if (!(cin >> n))
-        return 0;
+    if (!(cin >> n)){
+        return 0;}
 
+    cin.ignore();
     string eqs[100];
     cout << "[Step 2] Enter the " << n << " equations (e.g., 2x1+3x2=16):" << endl;
     for (int i = 0; i < n; i++)
     {
         cout << " Equation " << i + 1 << ": ";
-        cin >> eqs[i];
+        // cin >> eqs[i];
+        string line;
+        getline(cin, line);
+        if (line.empty()) { 
+            i--; continue; 
+        }
+        eqs[i] = line;
     }
 
     extractAndSortVars(eqs);
@@ -508,7 +582,7 @@ int main()
 else if (cmd == "solve") {
 
     if (n != totalVars) {
-        cout << "invalid try" << endl;
+        cout << "No Solution Cramer's Rule needs number of variable to be equl to number of equations" << endl;
     }
     else {
 
@@ -733,8 +807,87 @@ else if (cmd == "solve") {
 //  (e.g., 1 " << n << "):
 
 // يعني من الاخر كده عايزه يحس ان uiux هو اللي عمل ال project ده يخليه يحس انه فتح app علي الcmd
+// ميخرجش منه غير لو دخل quit 
 
 
 /***********************************/
 
 
+
+
+// 🔴 أهم اقتراح احترافي
+
+// بدل ما تمشي حرف حرف manually، اعمل:
+
+// Tokenizer بسيط
+
+// يمشي على المعادلة كأنها Scanner:
+
+// اقرأ sign
+
+// اقرأ coefficient
+
+// اقرأ variable
+
+// خزنه
+
+// ده هيخلي parser 100% stable.
+
+
+/*******************/
+
+// 🔥 ليه ده أفضل من substr؟
+
+// لأنه يمنع حالات زي:
+
+// 2xyabc+3
+
+
+// إنه يعتبر xyabc متغير كامل لو حصل parsing غلط.
+
+// دلوقتي أنت محدد:
+
+// اقرأ حروف
+
+// اقرأ أرقام
+
+// وقف
+
+// بالظبط زي extraction الأولاني.
+
+// 🧠 بعد التعديل ده
+
+// هيبقى يدعم:
+
+// 2xy+3ab=10
+// 4xx-2aB1=7
+
+
+// بدون أي bugs في اسم المتغير.
+
+// ⚠️ أهم نقطة
+
+// لازم يكون extraction في:
+
+// extractAndSortVars()
+
+// parseSide()
+
+// بنفس المنطق 100%
+
+// وإلا هتظهر Bugs subtle جداً.
+
+// لو عايز أعملك نسخة موحدة بدالة اسمها:
+
+// string extractVariable(string term, int startIndex)
+
+
+// ونستخدمها في الاتنين (احترافي جداً 👑)
+
+// قولي:
+
+// اعملها بدالة واحدة نظيفة
+
+// ونرتب الكود صح.
+
+/**************** */
