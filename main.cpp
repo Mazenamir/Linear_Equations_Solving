@@ -365,7 +365,7 @@ int main()
 
             cin >> v >> i >> j;
 
-            if (i < 1 || i > n || j < 1 || j > n)
+            if (i == j || i < 1 || i > n || j < 1 || j > n)
             {
                 cout << "invalid try" << endl;
             }
@@ -408,78 +408,132 @@ int main()
         //         cout << endl;
         //     }
         // }
-        else if (cmd == "D")
-        {
+      else if (cmd == "D") {
 
-            string v;
+    string v;
 
-            // لو المستخدم كتب حاجة بعد D
-            if (cin.peek() != '\n')
-            {
-                cin >> v;
+    if (cin.peek() != '\n') {
 
-                int vIdx = getVarIndex(v);
+        cin >> v;
 
-                if (vIdx != -1)
-                {
-                    // نطبع مصفوفة Cramer للمتغير
-                    for (int r = 0; r < n; r++)
-                    {
-                        for (int c = 0; c < totalVars; c++)
-                        {
-                            if (c == vIdx)
-                                cout << constants[r];
-                            else
-                                cout << matrix[r][c];
+        // منع D x2 x3
+        if (cin.peek() != '\n') {
+            cout << "invalid try" << endl;
+            continue;
+        }
 
-                            if (c != totalVars - 1)
-                                cout << " ";
-                        }
-                        cout << endl;
-                    }
-                }
-                else
-                {
-                    cout << "Variable not found!" << endl;
-                }
-            }
-            else
-            {
-                // نطبع المصفوفة العادية
-                for (int r = 0; r < n; r++)
-                {
-                    for (int c = 0; c < totalVars; c++)
-                    {
+        if (n != totalVars) {
+            cout << "invalid try" << endl;
+            continue;
+        }
+
+        int vIdx = getVarIndex(v);
+
+        if (vIdx == -1) {
+            cout << "invalid try" << endl;
+        }
+        else {
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < totalVars; c++) {
+
+                    if (c == vIdx)
+                        cout << constants[r];
+                    else
                         cout << matrix[r][c];
-                        if (c != totalVars - 1)
-                            cout << " ";
-                    }
-                    cout << endl;
+
+                    if (c != totalVars - 1)
+                        cout << " ";
                 }
+                cout << endl;
             }
         }
-        else if (cmd == "D_value")
-        {
-            cout << "Determinant (D) = " << getDeterminant(matrix, n) << endl;
+    }
+    else {
+
+        if (n != totalVars) {
+            cout << "invalid try" << endl;
         }
-        else if (cmd == "solve")
-        {
-            float dMain = getDeterminant(matrix, n);
-            if (abs(dMain) < 1e-9)
-                cout << "No Unique Solution (D=0)" << endl;
-            else
-            {
-                cout << "Solutions (Cramer's Rule):" << endl;
-                for (int j = 0; j < totalVars; j++)
-                {
-                    float tempMat[100][100];
-                    for (int r = 0; r < n; r++)
-                        for (int c = 0; c < n; c++)
-                            tempMat[r][c] = (c == j ? constants[r] : matrix[r][c]);
-                    cout << " " << varNames[j] << " = " << getDeterminant(tempMat, n) / dMain << endl;
+        else {
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < totalVars; c++) {
+                    cout << matrix[r][c];
+                    if (c != totalVars - 1)
+                        cout << " ";
                 }
+                cout << endl;
             }
         }
+    }
+}
+
+        // else if (cmd == "D_value")
+        // {
+        //     cout << "Determinant (D) = " << getDeterminant(matrix, n) << endl;
+        // }
+        else if (cmd == "D_value") {
+
+    if (n != totalVars) {
+        cout << "invalid try" << endl;
+    }
+    else {
+        cout << "Determinant (D) = ";
+        cout << getDeterminant(matrix, n) << endl;
+    }
+}
+/***************** */
+        // else if (cmd == "solve")
+        // {
+        //     float dMain = getDeterminant(matrix, n);
+        //     if (abs(dMain) < 1e-9)
+        //         cout << "No Unique Solution (D=0)" << endl;
+        //     else
+        //     {
+        //         cout << "Solutions (Cramer's Rule):" << endl;
+        //         for (int j = 0; j < totalVars; j++)
+        //         {
+        //             float tempMat[100][100];
+        //             for (int r = 0; r < n; r++)
+        //                 for (int c = 0; c < n; c++)
+        //                     tempMat[r][c] = (c == j ? constants[r] : matrix[r][c]);
+        //             cout << " " << varNames[j] << " = " << getDeterminant(tempMat, n) / dMain << endl;
+        //         }
+        //     }
+        // }
+
+else if (cmd == "solve") {
+
+    if (n != totalVars) {
+        cout << "invalid try" << endl;
+    }
+    else {
+
+        float dMain = getDeterminant(matrix, n);
+
+        if (abs(dMain) < 1e-9) {
+            cout << "No Solution" << endl;
+        }
+        else {
+
+            for (int j = 0; j < totalVars; j++) {
+
+                float tempMat[100][100];
+
+                for (int r = 0; r < n; r++)
+                    for (int c = 0; c < n; c++)
+                        tempMat[r][c] =
+                            (c == j ? constants[r]
+                                    : matrix[r][c]);
+
+                cout << varNames[j]
+                     << "="
+                     << getDeterminant(tempMat, n) / dMain
+                     << endl;
+            }
+        }
+    }
+}
+
+        /******************* */
         else
         {
             cout << "Unknown command. Please try again." << endl;
@@ -546,7 +600,7 @@ int main()
 // ده إدخال غلط
 // لازم invalid try.
 
-// 5️⃣ substitute نفس المعادلة
+// 2️⃣ substitute نفس المعادلة
 
 // لو كتب:
 
@@ -623,3 +677,23 @@ int main()
 // لأن نص المشروع بيقول:
 
 // مفيش كلام زيادة في الـ output
+
+/***************** */
+
+// دي النسخه القبل الاخيره من المشروع 
+// دلوقتي انا run المشروع عايزك تبعتلي كل test case اجرب بيها و تكون علي 3 مراحل المرحله الاوله المرحله العاديه اتاكد ان كل حاجه شغاله في المشروع بكل الادخالات  
+// المرحله التانيه انك تجرب ب test case تجرب بيها الحاجات اللي بتتاكد منها ان الuser مسمم يدخل كل الinputs الغلط عشان يطلع عيب 
+// المرحله التالته 
+// الtest case التعجيزيه الحاجات اللي بتعمل crash لل كود 
+
+
+
+/***********************/
+
+
+
+// upper و lower case 
+
+// commands 
+
+
