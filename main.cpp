@@ -106,9 +106,8 @@ void parseSide(string side, int multiplier, int eqIndex)
                         vName += term[k++];
 
                     float val =
-                        (coeffStr == "" || coeffStr == "+") ? 1 :
-                        (coeffStr == "-") ? -1 :
-                        atof(coeffStr.c_str());
+                        (coeffStr == "" || coeffStr == "+") ? 1 : (coeffStr == "-") ? -1
+                                                                                    : atof(coeffStr.c_str());
 
                     int idx = getVarIndex(vName);
 
@@ -131,17 +130,16 @@ void parseSide(string side, int multiplier, int eqIndex)
     }
 }
 
-
 void parseEquations(string eqs[])
 {
 
     for (int i = 0; i < 100; i++)
     {
         constants[i] = 0;
-        for (int j = 0; j < 100; j++){
+        for (int j = 0; j < 100; j++)
+        {
             matrix[i][j] = 0;
         }
-            
     }
 
     for (int i = 0; i < n; i++)
@@ -159,10 +157,8 @@ void parseEquations(string eqs[])
         string lhs = cleaned.substr(0, eqPos);
         string rhs = cleaned.substr(eqPos + 1);
 
-
         parseSide(lhs, 1, i);
         parseSide(rhs, -1, i);
-        
     }
 }
 
@@ -401,15 +397,52 @@ int main()
 
         else if (cmd == "d")
         {
-            if (n != totalVars)
-                cout << "Cramer's Rule requires number of equations equal to number of variables." << endl;
-            else
-                for (int r = 0; r < n; r++)
+            if (cin.peek() != '\n')
+            {
+                string var;
+                cin >> var;
+
+                int vIdx = getVarIndex(var);
+
+                if (vIdx == -1)
                 {
-                    for (int c = 0; c < totalVars; c++)
-                        cout << matrix[r][c] << " ";
-                    cout << endl;
+                    cout << "Variable not found in the system." << endl;
                 }
+                else if (n != totalVars)
+                {
+                    cout << "Cramer's Rule requires number of equations equal to number of variables." << endl;
+                }
+                else
+                {
+                    for (int r = 0; r < n; r++)
+                    {
+                        for (int c = 0; c < totalVars; c++)
+                        {
+                            if (c == vIdx)
+                                cout << constants[r] << " "; 
+                            else
+                                cout << matrix[r][c] << " ";
+                        }
+                        cout << endl;
+                    }
+                }
+            }
+            else
+            {
+                if (n != totalVars)
+                {
+                    cout << "Cramer's Rule requires number of equations equal to number of variables." << endl;
+                }
+                else
+                {
+                    for (int r = 0; r < n; r++)
+                    {
+                        for (int c = 0; c < totalVars; c++)
+                            cout << matrix[r][c] << " ";
+                        cout << endl;
+                    }
+                }
+            }
         }
 
         else if (cmd == "d_value")
@@ -452,5 +485,3 @@ int main()
 
     return 0;
 }
-
-
