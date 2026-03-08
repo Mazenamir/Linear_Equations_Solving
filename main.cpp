@@ -232,8 +232,14 @@ void initializeSystem()
 {
     cout << "\nEnter number of equations: ";
     cout << "(Example: 3)" << endl;
-    cin >> n;
-
+    if (!(cin >> n) || n <= 0)
+    {
+        cout << "Invalid input. Please enter a positive integer." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        initializeSystem();
+        return;
+    }
     cin.ignore();
 
     string eqs[100];
@@ -447,3 +453,4 @@ int main()
 
     return 0;
 }
+
